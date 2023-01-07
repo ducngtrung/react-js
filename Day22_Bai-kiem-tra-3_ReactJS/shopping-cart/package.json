@@ -43,5 +43,5 @@
     "@types/bootstrap": "^5.2.6",
     "gh-pages": "^4.0.0"
   },
-  "homepage": "https://ducngtrung.github.io/react-js"
+  "homepage": "https://ducngtrung.github.io/react-js/"
 }
