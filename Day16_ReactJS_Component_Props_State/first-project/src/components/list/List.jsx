@@ -45,7 +45,7 @@ function List(props) {
             <button onClick={handleAdd}>Add</button>
             <button onClick={handleRemove}>Remove last item</button>
 
-            {/* Ẩn/hiện list dựa theo state isShow */}
+            {/* Ẩn/Hiện list dựa theo state isShow */}
             {isShow && (
                 <ul>
                     {items.map((item, index) => (

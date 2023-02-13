@@ -16,11 +16,12 @@ const add = () => {
     }
 }
 
-action được gửi đến reducer
+action được gửi đến reducer (thông qua dispatch) để xử lý logic
+
+store : là nơi lưu trữ nhiều reducer, mỗi reducer quản lý các hàm logic một đối tượng nào đó (vd: userReducer, blogReducer, categoryReducer, v.v.)
 
 reducer :
 - Là một function tính toán và trả về một state mới dựa vào 2 tham số: state hiện tại, action
 - reducer lấy type và payload từ action để thay đổi state
 - Khi state thay đổi thì UI được render lại
-
-store : quản lý nhiều reducer, mỗi reducer quản lý một đối tượng nào đó (vd: user, blog, category, v.v.)
+- Lưu ý: trong reducer chỉ xử lý code đồng bộ (không xử lý code bất đồng bộ, không gọi API)
