@@ -80,8 +80,10 @@ function TodoList() {
     };
 
     const handleDelete = (id) => {
-        // TODO : Thêm confirm trước khi xóa
-        dispatch(deleteTodo(id));
+        // Sử dụng window.confirm để hiển thị hộp thoại yêu cầu xác nhận trước khi xóa
+        if (window.confirm("Bạn có thực sự muốn xóa?")) {
+            dispatch(deleteTodo(id));
+        }
     };
 
     return (
