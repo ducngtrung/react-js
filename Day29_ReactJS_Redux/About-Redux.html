@@ -1,0 +1,26 @@
+redux là một thư việc quản lý trạng thái (state)
+
+action là một object chứa type và payload
+
+action : {
+    type : loại action (bắt buộc)
+    payload : dữ liệu để thay đổi state (không bắt buộc)
+}
+
+Một function tạo ra action thì được gọi là action creator
+VD:
+const add = () => {
+    return {
+        type : "add",
+        payload : 2
+    }
+}
+
+action được gửi đến reducer
+
+reducer :
+- Là một function tính toán và trả về một state mới dựa vào 2 tham số: state hiện tại, action
+- reducer lấy type và payload từ action để thay đổi state
+- Khi state thay đổi thì UI được render lại
+
+store : quản lý nhiều reducer, mỗi reducer quản lý một đối tượng nào đó (vd: user, blog, category, v.v.)

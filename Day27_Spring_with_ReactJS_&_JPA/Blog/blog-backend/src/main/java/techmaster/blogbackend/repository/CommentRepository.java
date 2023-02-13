@@ -1,4 +1,7 @@
 package techmaster.blogbackend.repository;
 
-public interface CommentRepository extends org.springframework.data.jpa.repository.JpaRepository<techmaster.blogbackend.entity.Comment, java.lang.Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import techmaster.blogbackend.entity.Comment;
+
+public interface CommentRepository extends JpaRepository<Comment, Integer> {
 }

@@ -1,4 +1,7 @@
 package techmaster.blogbackend.repository;
 
-public interface ImageRepository extends org.springframework.data.jpa.repository.JpaRepository<techmaster.blogbackend.entity.Image, java.lang.Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import techmaster.blogbackend.entity.Image;
+
+public interface ImageRepository extends JpaRepository<Image, Integer> {
 }
