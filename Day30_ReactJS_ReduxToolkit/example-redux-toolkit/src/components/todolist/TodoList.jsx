@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, updateTodo } from "../../app/actions/todoActions";
+import { addTodo, updateTodo, deleteTodo } from "../../app/slices/todoSlice";
 
 // method này tạo random một số từ 0 đến 1000
 const randomId = () => {
@@ -22,6 +22,7 @@ function TodoList() {
             alert("Tiêu đề không được để trống");
             return;
         }
+        
         // Nếu có dữ liệu ở ô input thì tạo todo mới với title là dữ liệu hiện tại, status mặc định là false, id được tạo radom
         const newTodo = {
             id : randomId(),

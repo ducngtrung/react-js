@@ -4,7 +4,7 @@ import todoReducer from "./reducers/todoReducer";
 
 // Gom các reducer lại vào trong rootReducer
 const rootReducer = combineReducers({
-    counter: counterReducer,
+    counter : counterReducer,
     todos : todoReducer
 });
 

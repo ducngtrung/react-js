@@ -1,16 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { decrement, increment } from "../../app/actions/counterActions";
+import { decrement, increment } from "../../app/slices/counterSlice";
 
 function Counter() {
-    // "state" là tất cả các state của ứng dụng, được lưu trữ trong store (file store.js)
     // Sử dụng hook useSelector và state.counter.value để lấy ra dữ liệu counter từ store và hiển thị
     const counter = useSelector(state => state.counter.value);
 
     // Sử dụng hook useDispatch để gửi action đến store để xử lý logic
     const dispatch = useDispatch();
 
-    // Bản chất của dispatch là gửi một object (action) đến store, nên tham số bên trong dispatch phải là một object (hoặc một function trả về một object)
     const handleDecrement = () => {
         dispatch(decrement());
     };

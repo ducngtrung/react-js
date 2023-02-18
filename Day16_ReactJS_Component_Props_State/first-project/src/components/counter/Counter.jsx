@@ -1,7 +1,9 @@
+// snippet để popuplate code của component là "rfce"
+
 import React, { useState } from 'react';
 import './Counter.css';
 
-// Những dữ liệu trong component mà có thể thay đổi theo thời gian thì nên được quản lý bởi State
+// Những dữ liệu trong component mà có thể thay đổi theo thời gian cần được quản lý bởi State
 // State được dùng để quản lý dữ liệu nội bộ trong một component (tương tự như biến private trong Java)
 // Khi State thay đổi thì component chứa nó sẽ được render lại (bao gồm cả các component con bên trong)
 
