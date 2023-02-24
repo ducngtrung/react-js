@@ -1,4 +1,4 @@
-package com.example.blogbackend.dto;
+package techmaster.blogbackend.dto;
 
 import lombok.*;
 

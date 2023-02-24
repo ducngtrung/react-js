@@ -1,11 +1,11 @@
-package com.example.blogbackend.service;
+package techmaster.blogbackend.service;
 
-import com.example.blogbackend.dto.CategoryDto;
-import com.example.blogbackend.entity.Blog;
-import com.example.blogbackend.exception.NotFoundException;
-import com.example.blogbackend.repository.BlogRepository;
-import com.example.blogbackend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import techmaster.blogbackend.dto.CategoryDto;
+import techmaster.blogbackend.entity.Blog;
+import techmaster.blogbackend.exception.NotFoundException;
+import techmaster.blogbackend.repository.BlogRepository;
+import techmaster.blogbackend.repository.CategoryRepository;
 
 import java.util.List;
 

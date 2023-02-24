@@ -1,12 +1,12 @@
-package com.example.blogbackend.controller;
+package techmaster.blogbackend.controller;
 
-import com.example.blogbackend.service.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import techmaster.blogbackend.service.WebService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") // Đây là controller chứa các API được sử dụng ở phía user (front-end), nên có thể đưa đưa "user" vào đường dẫn API để tường minh hơn, tức là "/api/user"
 public class WebController {
 
     @Autowired

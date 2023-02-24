@@ -1,9 +1,9 @@
-package com.example.blogbackend.service;
+package techmaster.blogbackend.service;
 
-import com.example.blogbackend.entity.Category;
-import com.example.blogbackend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import techmaster.blogbackend.entity.Category;
+import techmaster.blogbackend.repository.CategoryRepository;
 
 import java.util.List;
 

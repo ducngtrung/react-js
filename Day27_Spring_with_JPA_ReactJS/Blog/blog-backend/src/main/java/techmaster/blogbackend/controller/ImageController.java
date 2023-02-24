@@ -1,15 +1,15 @@
-package com.example.blogbackend.controller;
+package techmaster.blogbackend.controller;
 
-import com.example.blogbackend.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import techmaster.blogbackend.service.ImageService;
 
 @RestController
-@RequestMapping("api/images")
+@RequestMapping("/api/images") // Đây là controller dùng chung cho cả user và admin (vì cả user và admin đều có thể thực hiện các thao tác xem/upload/xóa ảnh), do đó không nên đưa "admin" vào đường dẫn API
 public class ImageController {
 
     @Autowired

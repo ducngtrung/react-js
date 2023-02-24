@@ -1,16 +1,15 @@
-package com.example.blogbackend.service;
+package techmaster.blogbackend.service;
 
-import com.example.blogbackend.entity.Blog;
-import com.example.blogbackend.entity.Image;
-import com.example.blogbackend.entity.User;
-import com.example.blogbackend.exception.BadRequestException;
-import com.example.blogbackend.exception.NotFoundException;
-import com.example.blogbackend.repository.ImageRepository;
-import com.example.blogbackend.repository.UserRepository;
-import com.example.blogbackend.response.ImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import techmaster.blogbackend.entity.Image;
+import techmaster.blogbackend.entity.User;
+import techmaster.blogbackend.exception.BadRequestException;
+import techmaster.blogbackend.exception.NotFoundException;
+import techmaster.blogbackend.repository.ImageRepository;
+import techmaster.blogbackend.repository.UserRepository;
+import techmaster.blogbackend.response.ImageResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class ImageService {
 
     @Autowired
     private ImageRepository imageRepository;
-
     @Autowired
     private UserRepository userRepository;
 

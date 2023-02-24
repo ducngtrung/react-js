@@ -1,4 +1,4 @@
-package com.example.blogbackend.response;
+package techmaster.blogbackend.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
