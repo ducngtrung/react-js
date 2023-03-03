@@ -9,14 +9,14 @@ const store = configureStore({
     reducer: {
         [blogApi.reducerPath]: blogApi.reducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
-        // [imageApi.reducerPath]: imageApi.reducer,
+        [imageApi.reducerPath]: imageApi.reducer,
         blogs: blogsReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
             blogApi.middleware,
             categoryApi.middleware,
-            // imageApi.middleware
+            imageApi.middleware
         ),
 });
 

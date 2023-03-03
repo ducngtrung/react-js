@@ -1,14 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function OwnBlog() {
     return (
         <div className="container-fluid">
             <div className="row py-2">
                 <div className="col-12">
-                    <button type="button" className="btn btn-primary">
-                        <i className="fas fa-plus"></i> Viết bài
-                    </button>
-                    <button type="button" className="btn btn-info">
+                    <Link to={"/admin/blogs/create"}>
+                        <button type="button" className="btn btn-primary">
+                            <i className="fas fa-plus"></i> Viết bài
+                        </button>
+                    </Link>
+                    <button 
+                        type="button" 
+                        className="btn btn-info"
+                        onClick={() => window.location.reload(true)}
+                    >
                         <i className="fas fa-redo"></i> Refresh
                     </button>
                 </div>

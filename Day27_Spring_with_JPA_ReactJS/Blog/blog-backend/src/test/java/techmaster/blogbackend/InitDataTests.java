@@ -112,7 +112,7 @@ public class InitDataTests {
 
             Comment comment = Comment.builder()
                     .content(faker.lorem().sentence(20))
-                    .blog(randomBlog)
+//                    .blog(randomBlog)
                     .user(randomUser)
                     .build();
 

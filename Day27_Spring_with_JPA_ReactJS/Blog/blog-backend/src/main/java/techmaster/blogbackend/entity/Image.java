@@ -22,7 +22,10 @@ public class Image {
     private LocalDateTime createdAt;
 
     @Lob // Large object
+    // Đọc thêm: https://www.baeldung.com/hibernate-lob
     @Column(name = "data", columnDefinition = "LONGBLOB")
+    // columnDefinition là LONGBLOB để chứa được file lớn hơn
+    // Nếu đã tạo DB xong sau đó mới thêm columnDefinition thì phải drop DB và tạo lại
     private byte[] data;
 
     @ManyToOne

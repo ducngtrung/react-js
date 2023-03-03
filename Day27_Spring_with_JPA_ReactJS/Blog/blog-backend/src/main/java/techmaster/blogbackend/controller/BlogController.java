@@ -10,7 +10,7 @@ import techmaster.blogbackend.service.BlogService;
 
 @RestController
 @RequestMapping("/api/admin/blogs")
-@Slf4j
+@Slf4j // annotation này hỗ trợ ghi log vào Console
 public class BlogController {
 
     @Autowired
@@ -37,6 +37,10 @@ public class BlogController {
     // Cập nhật blog
     @PutMapping("{id}")
     public ResponseEntity<?> updateBlogById(@PathVariable Integer id, @RequestBody UpsertBlogRequest request) {
+        // Log thông tin id và request body vào Console để kiểm tra
+        log.info("id : {}", id);
+        log.info("request : {}", request);
+
         return ResponseEntity.ok(blogService.updateBlogById(id, request));
     }
 

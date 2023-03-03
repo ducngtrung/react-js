@@ -8,21 +8,25 @@ export const blogApi = createApi({
     reducerPath: "blogApi",
 
     // Lấy đường dẫn API chung của ứng dụng
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api/admin" }),
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: "http://localhost:8080/api/admin" 
+    }),
     
-    // tagTypes: ['Post'],
+    tagTypes: ['Post'],
 
     // Mỗi endPoint chịu trách nhiệm gọi 1 back-end API
     endpoints: (builder) => ({
         getBlogs: builder.query({ // "query" dùng để gọi API truy xuất dữ liệu
             query: () => "blogs",
-            // providesTags: ['Post'],
+            providesTags: ['Post'],
         }),
         getBlogById: builder.query({
             query: (id) => `blogs/${id}`,
+            providesTags: ['Post'],
         }),
         getOwnBlogs: builder.query({
             query: () => `blogs/own-blogs`,
+            providesTags: ['Post'],
         }),
         createBlog: builder.mutation({ // "mutation" dùng để gọi API thay đổi dữ liệu (thêm, sửa, xóa)
             query: (data) => ({
@@ -30,10 +34,10 @@ export const blogApi = createApi({
                 method: "POST",
                 body: data,
             }),
-            // invalidatesTags: ['Post'],
+            invalidatesTags: ['Post'],
         }),
         updateBlog: builder.mutation({
-            // Vì phía client gửi lên một object hoàn chỉnh updatedBlog (gồm id và các trường còn lại) nên cần bóc tách id ra khỏi phần data còn lại, để đưa id vào request url và đưa data vào request body
+            // Vì phương thức query chỉ nhận 1 tham số đầu vào nên phải truyền vào một đối tượng đầy đủ gồm cả id và những phần còn lại (title, content, description, v.v.), dùng cú pháp { id, ...data } để lấy id cho request url và data cho request body
             query: ({ id, ...data }) => {
                 // // Kiểm tra lại input
                 // console.log({ id, data });
@@ -43,14 +47,14 @@ export const blogApi = createApi({
                     body: data,
                 }
             },
-            // invalidatesTags: ['Post'],
+            invalidatesTags: ['Post'],
         }),
         deleteBlog: builder.mutation({
             query: (id) => ({
                 url: `blogs/${id}`,
                 method: "DELETE",
             }),
-            // invalidatesTags: ['Post'],
+            invalidatesTags: ['Post'],
         }),
     }),
 });

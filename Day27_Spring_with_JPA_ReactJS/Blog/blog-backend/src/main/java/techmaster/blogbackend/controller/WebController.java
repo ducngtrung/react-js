@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import techmaster.blogbackend.service.WebService;
 
 @RestController
-@RequestMapping("/api") // Đây là controller chứa các API được sử dụng ở phía user (front-end), nên có thể đưa đưa "user" vào đường dẫn API để tường minh hơn, tức là "/api/user"
+@RequestMapping("/api")
+// Đây là controller chứa các API được sử dụng ở phía user (front-end), nên có thể đưa đưa "user" vào đường dẫn API để tường minh hơn, tức là "/api/user"
 public class WebController {
 
     @Autowired

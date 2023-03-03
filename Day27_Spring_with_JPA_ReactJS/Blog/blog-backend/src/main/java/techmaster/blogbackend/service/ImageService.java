@@ -23,12 +23,14 @@ public class ImageService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<String> getAllImage() {
-        // TODO : Sau nay user chính là user đang đăng nhập (Hiện tại đang fix)
+    public List<String> getAllImages() {
+        // Sau khi học Spring Security thì sẽ gắn các phương thức này với id cụ thể của user đang đăng nhập
+        // Hiện tại mặc định userId = 1
         Integer userId = 1;
 
         List<Image> images = imageRepository.findByUser_IdOrderByCreatedAtDesc(userId);
 
+        // Trả về các đường dẫn ảnh "/api/images/{id}" để khi truy cập đường dẫn ảnh sẽ gọi API để xem được ảnh luôn
         return images.stream()
                 .map(image -> "/api/images/" + image.getId())
                 .toList();
@@ -42,9 +44,20 @@ public class ImageService {
         return image.getData();
     }
 
+    public void deleteImage(Integer id) {
+        Image image = imageRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found image with id = " + id);
+        });
+
+        imageRepository.delete(image);
+    }
+
     public ImageResponse uploadImage(MultipartFile file) {
-        // TODO : Sau nay user chính là user đang đăng nhập (Hiện tại đang fix)
+        // Sau khi học Spring Security thì sẽ gắn các phương thức này với id cụ thể của user đang đăng nhập
+        // Hiện tại mặc định userId = 1
         Integer userId = 1;
+
+        // Tìm ra user có id = userId bên trên
         User user = userRepository.findById(userId).orElseThrow(() -> {
             throw new NotFoundException("Not found user with id = " + userId);
         });
@@ -52,14 +65,22 @@ public class ImageService {
         // Validate file
         validateFile(file);
 
+        // Tạo một đối tượng Image:
+        //    - Thông tin chính gồm data và user
+        //    - id được auto-generated bởi JPA
+        //    - createdAt được tự động gán bằng LocalDateTime.now (dùng @PrePersist)
         try {
             Image image = Image.builder()
                     .data(file.getBytes())
                     .user(user)
                     .build();
 
+            // Lưu image vừa tạo vào DB
             imageRepository.save(image);
 
+            // Trả về một đối tượng ImageResponse chứa đường dẫn ảnh có dạng "/api/images/{id}"
+            // để khi gọi API thì dữ liệu trả về là một valid JSON
+            // (thay vì trả về trực tiếp chuỗi "/api/images/{id}")
             String url = "/api/images/" + image.getId();
             return new ImageResponse(url);
         } catch (Exception e) {
@@ -99,11 +120,4 @@ public class ImageService {
         return extensions.contains(fileExtension.toLowerCase());
     }
 
-    public void deleteImage(Integer id) {
-        Image image = imageRepository.findById(id).orElseThrow(() -> {
-            throw new NotFoundException("Not found image with id = " + id);
-        });
-
-        imageRepository.delete(image);
-    }
 }

@@ -1,7 +1,7 @@
 // Trang này làm tương tự như trang BlogCreate, chỉ khác là khi load trang cần lấy ra param blogId trên URL, dùng blogId đó để gọi API lấy thông tin blog, rồi đưa các trường dữ liệu cần hiển thị vào các state
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Select from "react-select";
 import SimpleMdeReact from "react-simplemde-editor";
 import {
@@ -56,21 +56,24 @@ function BlogDetail() {
 
     const [uploadImage] = useUploadImageMutation();
 
-    const handleUploadThumbnail = (e) => {
-        // Lấy ra file vừa được chọn
-        const file = e.target.files[0];
+    const handleUploadThumbnail = (file) => {
+        // // Kiểm tra thông tin file được chọn
+        // console.log(file);
 
+        // Phải convert file sang dạng form-data (tương tự như trên Postman) để gửi được lên API
+        // Bằng cách append 1 cặp key-value ("file": file) vào trong 1 đối tượng formData mới
         const formData = new FormData();
         formData.append("file", file);
 
-        uploadImage(formData) // Trả về URL /api/images/1
+        uploadImage(formData) // Trả về URL dạng "/api/images/{id}"
             .unwrap()
-            .then((res) => {
-                setThumbnail(res.url);
+            .then((response) => {
+                // Nếu upload thành công thì lấy ra url từ trong response (chính là đối tượng ImageResponse được trả về ở backend) để gán cho state thumbnail
+                setThumbnail(response.url);
                 alert("Upload image thành công");
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
             });
     };
 
@@ -79,6 +82,9 @@ function BlogDetail() {
 
     // Lấy ra action updateBlog từ hook useUpdateBlogMutation
     const [updateBlog] = useUpdateBlogMutation();
+
+    // hook useNavigate (thuộc react-router-dom) dùng để chuyển hướng từ trang này sang trang khác
+    const navigate = useNavigate();
 
     const handleUpdateBlog = () => {
         // Tạo object newBlog với các thuộc tính lấy từ các state bên trên
@@ -92,18 +98,33 @@ function BlogDetail() {
             categoryIds,
         };
 
-        // Gọi action updateBlog (tương tự như việc dispatch action khi dùng createAsyncThunk)
         updateBlog(updatedBlog)
             .unwrap() // unwrap mutation call để lấy response và error (nếu có)
             .then(() => {
                 alert("Cập nhật blog thành công");
+                navigate("/admin/blogs");
             })
             .catch((error) => {
                 alert(error);
             });
     };
 
+
+    // ---------------------Xóa blog---------------------
+
     const [deleteBlog] = useDeleteBlogMutation();
+
+    const handleDeleteBlog = () => {
+        deleteBlog(blogId)
+            .unwrap() // unwrap mutation call để lấy response và error (nếu có)
+            .then(() => {
+                alert("Xóa blog thành công");
+                navigate("/admin/blogs");
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    };
 
 
     // ---------------------Lấy dữ liệu blog cần hiển thị---------------------
@@ -142,9 +163,11 @@ function BlogDetail() {
         <div className="container-fluid">
             <div className="row py-2">
                 <div className="col-6">
-                    <button type="button" className="btn btn-default">
-                        <i className="fas fa-chevron-left"></i> Quay lại
-                    </button>
+                    <Link to={"/admin/blogs"}>
+                        <button type="button" className="btn btn-default">
+                            <i className="fas fa-chevron-left"></i> Quay lại
+                        </button>
+                    </Link>
                     <button
                         type="button"
                         className="btn btn-info px-4"
@@ -159,7 +182,11 @@ function BlogDetail() {
                 </div>
 
                 <div className="col-6 d-flex justify-content-end">
-                    <button type="button" className="btn btn-danger px-4">
+                    <button 
+                        type="button" 
+                        className="btn btn-danger px-4"
+                        onClick={handleDeleteBlog}
+                    >
                         Xóa
                     </button>
                 </div>
@@ -225,6 +252,7 @@ function BlogDetail() {
                                             <option value="1">Công khai</option>
                                         </select>
                                     </div>
+                                    
                                     <div className="form-group">
                                         <label>Danh mục</label>
                                         <div className="select2-purple">
@@ -232,15 +260,21 @@ function BlogDetail() {
                                                 options={options}
                                                 value={optionsSelected}
                                                 isMulti
-                                                onChange={handleChangeCategory}
+                                                onChange={(data) =>
+                                                    handleChangeCategory(data)
+                                                }
+                                                // hoặc chỉ cần viết: onChange={handleChangeCategory}
                                             />
                                         </div>
                                     </div>
+                                    
                                     <div className="form-group">
+                                        {/* Đây là phần hiển thị ảnh vừa upload */}
                                         <div className="thumbnail-preview-container mb-3">
                                             <img
+                                                // Nối domain "http://localhost:8080" với state thumbnail (url có dạng "/api/images/{id}") thành đường dẫn API hoàn chỉnh để hiển thị ảnh
                                                 src={`http://localhost:8080${thumbnail}`}
-                                                alt="thumbnail image"
+                                                alt=""
                                                 id="thumbnail"
                                             />
                                         </div>
@@ -250,13 +284,15 @@ function BlogDetail() {
                                         >
                                             Chọn hình ảnh
                                         </label>
+                                        {/* Đây là input để upload file, sử dụng label bên trên để đại diện cho ô input này (dùng id trong input và htmlFor trong label để refer từ label đến input). Thêm class "d-none" (display: none) của bootstrap để ẩn input này trên giao diện, chỉ hiển thị label của nó. */}
                                         <input
                                             type="file"
                                             id="input-file"
                                             className="d-none"
-                                            onChange={(data) =>
-                                                handleUploadThumbnail(data)
-                                            }
+                                            onChange={(event) =>
+                                                handleUploadThumbnail(event.target.files[0])
+                                                // Vì chỉ chọn 1 file nên sẽ lấy ra 1 file duy nhất trong mảng để xử lý upload
+                                            }                                        
                                         />
                                     </div>
                                 </div>

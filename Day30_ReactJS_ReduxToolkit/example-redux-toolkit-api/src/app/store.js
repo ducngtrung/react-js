@@ -5,12 +5,8 @@ import todosReducer from "./slices/todoSlice";
 
 const store = configureStore({
     reducer : {
-        // [todolistApi.reducerPath]: todolistApi.reducer,
         todos : todosReducer,
-        // todolist: todolistReducer
     },
-    // middleware: (getDefaultMiddleware) =>
-    //     getDefaultMiddleware().concat(todolistApi.middleware)
 })
 
 export default store;

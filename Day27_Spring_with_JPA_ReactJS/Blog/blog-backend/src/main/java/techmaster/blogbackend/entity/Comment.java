@@ -31,9 +31,10 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "blog_id")
-    private Blog blog;
+//    Nếu entity Comment có ràng buộc many-to-one với entity Blog thì khi xóa một blog sẽ cần xử lý xóa tất cả các comment liên quan đến blog đó. Tạm thời chưa thêm ràng buộc này để có thể xử lý xóa blog đơn giản hơn.
+//    @ManyToOne
+//    @JoinColumn(name = "blog_id")
+//    private Blog blog;
 
     @PrePersist // Lifecycle
     public void prePersist() {

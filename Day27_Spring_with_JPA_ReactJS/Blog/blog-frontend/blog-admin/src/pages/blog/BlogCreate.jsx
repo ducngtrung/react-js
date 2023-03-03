@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Select from "react-select";
 import SimpleMdeReact from "react-simplemde-editor";
 import { useGetCategoriesQuery } from "../../app/services/categories.service";
+import { useUploadImageMutation } from "../../app/services/images.service";
 import { useCreateBlogMutation } from "../../app/services/blogs.service";
-import { useNavigate } from "react-router-dom";
 
 function BlogCreate() {
 
@@ -13,8 +14,35 @@ function BlogCreate() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState(""); // mô tả ngắn
     const [content, setContent] = useState(""); // nội dung chính của blog (chính là value trong component SimpleMdeReact)
+    const [thumbnail, setThumbnail] = useState("");
     const [status, setStatus] = useState(false); // status mặc định là false (ứng với trạng thái "Nháp")
     const [categoryIds, setCategoryIds] = useState([]);
+
+
+    // ---------------------Upload ảnh thumbnail---------------------
+
+    const [uploadImage] = useUploadImageMutation();
+
+    const handleUploadThumbnail = (file) => {
+        // // Kiểm tra thông tin file được chọn
+        // console.log(file);
+
+        // Phải convert file sang dạng form-data (tương tự như trên Postman) để gửi được lên API
+        // Bằng cách append 1 cặp key-value ("file": file) vào trong 1 đối tượng formData mới
+        const formData = new FormData();
+        formData.append("file", file);
+
+        uploadImage(formData) // Trả về URL dạng "/api/images/{id}"
+            .unwrap()
+            .then((response) => {
+                // Nếu upload thành công thì lấy ra url từ trong response (chính là đối tượng ImageResponse được trả về ở backend) để gán cho state thumbnail
+                setThumbnail(response.url);
+                alert("Upload image thành công");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
 
     // ---------------------Tạo blog mới---------------------
@@ -31,6 +59,7 @@ function BlogCreate() {
             title,
             description,
             content,
+            thumbnail,
             status,
             categoryIds,
         };
@@ -40,7 +69,7 @@ function BlogCreate() {
             .unwrap() // unwrap mutation call để lấy response và error (nếu có)
             .then(() => {
                 alert("Tạo blog thành công");
-                // Sau khi hiện thông báo "Tạo blog thành công" thì chờ 1 giây rồi chuyển hướng sang trang BlogList. Xem trong file App.jsx để lấy path (đường dẫn) của trang cần điều hướng đến.
+                // Sau khi hiện thông báo "Tạo blog thành công" thì chờ 1 giây rồi chuyển hướng đến trang BlogList. Xem trong file App.jsx để lấy path (đường dẫn) của trang cần điều hướng đến.
                 setTimeout(() => {
                     navigate("/admin/blogs");
                 }, 1000);
@@ -86,9 +115,11 @@ function BlogCreate() {
         <div className="container-fluid">
             <div className="row py-2">
                 <div className="col-6">
-                    <button type="button" className="btn btn-default">
-                        <i className="fas fa-chevron-left"></i> Quay lại
-                    </button>
+                    <Link to={"/admin/blogs"}>
+                        <button type="button" className="btn btn-default">
+                            <i className="fas fa-chevron-left"></i> Quay lại
+                        </button>
+                    </Link>
                     <button
                         type="button"
                         className="btn btn-info px-4"
@@ -161,6 +192,7 @@ function BlogCreate() {
                                             <option value="1">Công khai</option>
                                         </select>
                                     </div>
+                                    
                                     <div className="form-group">
                                         <label>Danh mục</label>
                                         <div className="select2-purple">
@@ -173,14 +205,33 @@ function BlogCreate() {
                                             />
                                         </div>
                                     </div>
+                                    
                                     <div className="form-group">
+                                        {/* Đây là phần hiển thị ảnh vừa upload */}
                                         <div className="thumbnail-preview-container mb-3">
-                                            <img src="" alt="" id="thumbnail" />
+                                            <img
+                                                // Nối domain "http://localhost:8080" với state thumbnail (url có dạng "/api/images/{id}") thành đường dẫn API hoàn chỉnh để hiển thị ảnh
+                                                src={`http://localhost:8080${thumbnail}`}
+                                                alt=""
+                                                id="thumbnail"
+                                            />
                                         </div>
-                                        <button type="button" className="btn btn-info btn-flat" data-toggle="modal"
-                                            data-target="#modal-xl">
+                                        <label
+                                            className="btn btn-info btn-flat"
+                                            htmlFor="input-file"
+                                        >
                                             Chọn hình ảnh
-                                        </button>
+                                        </label>
+                                        {/* Đây là input để upload file, sử dụng label bên trên để đại diện cho ô input này (dùng id trong input và htmlFor trong label để refer từ label đến input). Thêm class "d-none" (display: none) của bootstrap để ẩn input này trên giao diện, chỉ hiển thị label của nó. */}
+                                        <input
+                                            type="file"
+                                            id="input-file"
+                                            className="d-none"
+                                            onChange={(event) =>
+                                                handleUploadThumbnail(event.target.files[0])
+                                                // Vì chỉ chọn 1 file nên sẽ lấy ra 1 file duy nhất trong mảng để xử lý upload
+                                            }                                        
+                                        />
                                     </div>
                                 </div>
                             </div>

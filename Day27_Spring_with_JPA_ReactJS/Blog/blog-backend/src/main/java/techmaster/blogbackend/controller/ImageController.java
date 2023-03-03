@@ -9,16 +9,21 @@ import org.springframework.web.multipart.MultipartFile;
 import techmaster.blogbackend.service.ImageService;
 
 @RestController
-@RequestMapping("/api/images") // Đây là controller dùng chung cho cả user và admin (vì cả user và admin đều có thể thực hiện các thao tác xem/upload/xóa ảnh), do đó không nên đưa "admin" vào đường dẫn API
+@RequestMapping("/api/images")
+// Đây là controller dùng chung cho cả user và admin (vì cả user và admin đều có thể thực hiện các thao tác xem/upload/xóa ảnh), do đó không nên đưa "admin" vào đường dẫn API
 public class ImageController {
 
     @Autowired
     private ImageService imageService;
 
     // Lấy danh sách ảnh của user
+    // Trả về list các đường dẫn ảnh
+    // Ví dụ:
+    //    /api/images/1
+    //    /api/images/2
     @GetMapping("")
-    public ResponseEntity<?> getAllImage() {
-        return ResponseEntity.ok(imageService.getAllImage());
+    public ResponseEntity<?> getAllImages() {
+        return ResponseEntity.ok(imageService.getAllImages());
     }
 
     // Xem ảnh
