@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+
+import Layout from "./components/layout/Layout";
+import NotFound from "./components/notfound/NotFound";
+import BlogDetail from "./pages/blog/BlogDetail";
+import Home from "./pages/home/Home";
+import Search from "./pages/search/Search";
+import TagDetail from "./pages/tag/TagDetail";
+import TagList from "./pages/tag/TagList";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    return (
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                {/* Trang hiển thị danh sách tất cả bài viết */}
+                <Route index element={<Home />} />
+                
+                <Route path="/tags">
+                    {/* Trang hiển thị danh sách tất cả danh mục */}
+                    <Route index element={<TagList />} />
+                    {/* Trang hiển thị danh sách bài viết đang áp dụng danh mục tagName */}
+                    <Route path=":tagName" element={<TagDetail />} />
+                </Route>
+                
+                {/* Trang tìm kiếm */}
+                <Route path="/search" element={<Search />} />
+                
+                {/* Trang hiển thị chi tiết 1 bài viết */}
+                <Route path="/blogs/:blogId/:blogSlug" element={<BlogDetail />} />
+                
+                {/* Trang Not Found */}
+                <Route path="*" element={<NotFound />} />
+            </Route>
+        </Routes>
+    );
 }
 
-export default App
+export default App;
