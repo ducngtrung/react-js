@@ -10,5 +10,5 @@ import lombok.*;
 public class CategoryDto {
     private Integer id;
     private String name;
-    private Long used;
+    private Long used; // số lần được sử dụng trong các bài blog
 }

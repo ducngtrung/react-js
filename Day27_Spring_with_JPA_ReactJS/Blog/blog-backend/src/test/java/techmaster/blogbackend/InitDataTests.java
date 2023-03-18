@@ -38,7 +38,7 @@ public class InitDataTests {
     @Test
     @Rollback(value = false) // nếu không có value = false thì app sẽ rollback mọi thay đổi sau khi chạy test xong
     void init_users() {
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < 20; ++i) {
             User user = User.builder()
                     .name(faker.name().fullName())
                     .email(faker.internet().emailAddress())
