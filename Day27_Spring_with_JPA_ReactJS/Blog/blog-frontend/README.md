@@ -1,0 +1,2 @@
+Xây dựng các ứng dụng (services) riêng biệt: blog-admin (dựa trên giao diện trang admin.techmaster.vn) và blog-user (dựa trên giao diện trang https://huydq.dev/)
+Khi học DevOps (dùng Docker để triển khai ứng dụng lên internet) sẽ biết cách build một project mà trong đó các ứng dụng đọc lập có thể giao tiếp được với nhau
